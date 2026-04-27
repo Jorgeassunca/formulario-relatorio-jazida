@@ -440,8 +440,8 @@ input[type="color"] { width: 44px; height: 36px; padding: 2px 4px; cursor: point
       <div class="field">
         <label class="field-label">Logo da consultoria</label>
         <div class="hint">Envie a logo em PNG, JPG ou SVG — opcional</div>
-        <input type="hidden" role="uploadcare-uploader" name="logo_consultoria" data-crop="disabled" />
-        <div id="upload-name"></div>
+        <input type="hidden" id="logo-url" name="logo_consultoria" value="">
+        <input type="hidden" role="uploadcare-uploader" id="uc-uploader" data-crop="disabled">
       </div>
 
       <label class="optional-toggle">
@@ -619,6 +619,17 @@ input[type="color"] { width: 44px; height: 36px; padding: 2px 4px; cursor: point
 <script>
 let empresaCount = 2;
 
+// Uploadcare — captura URL do arquivo enviado
+uploadcare.Widget('#uc-uploader').onChange(function(file) {
+  if (file) {
+    file.done(function(info) {
+      document.getElementById('logo-url').value = info.cdnUrl;
+    });
+  } else {
+    document.getElementById('logo-url').value = '';
+  }
+});
+
 document.getElementById('cor-toggle').addEventListener('change', function() {
   document.getElementById('cor-field').style.display = this.checked ? 'block' : 'none';
 });
@@ -665,11 +676,13 @@ document.getElementById('main-form').addEventListener('submit', async function(e
   e.preventDefault();
   const btn = document.getElementById('submit-btn');
   btn.disabled = true;
-  btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg> Enviando...';
+  btn.innerHTML = 'Enviando...';
+
+  const formData = new FormData(this);
 
   try {
     const res = await fetch('https://api.web3forms.com/submit', {
-      method: 'POST', body: new FormData(this)
+      method: 'POST', body: formData
     });
     const data = await res.json();
     if (data.success) {
@@ -677,13 +690,13 @@ document.getElementById('main-form').addEventListener('submit', async function(e
       document.getElementById('success-msg').style.display = 'block';
     } else {
       btn.disabled = false;
-      btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg> Enviar para análise';
-      alert('Ocorreu um erro. Tente novamente.');
+      btn.innerHTML = 'Enviar para análise';
+      alert('Ocorreu um erro: ' + (data.message || 'Tente novamente.'));
     }
-  } catch {
+  } catch(err) {
     btn.disabled = false;
-    btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg> Enviar para análise';
-    alert('Erro de conexão. Verifique sua internet.');
+    btn.innerHTML = 'Enviar para análise';
+    alert('Erro de conexão: ' + err.message);
   }
 });
 </script>
