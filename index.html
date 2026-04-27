@@ -3,702 +3,149 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Jazida+ Consultor — Coleta de Processos Minerários</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Barlow:wght@300;400;500&family=Barlow+Mono&display=swap" rel="stylesheet">
-<script src="https://ucarecdn.com/libs/widget/3.x/uploadcare.full.min.js"></script>
-<script>UPLOADCARE_PUBLIC_KEY = '2bea6828d26f199354cf';</script>
-<script>UPLOADCARE_LOCALE = 'pt';</script>
+<title>Jazida+ — Portal de Formulários</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Barlow:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
 :root {
-  --green-deep:   #1D4A3A;
-  --green-mid:    #2E6B56;
-  --green-soft:   #4A7C6F;
-  --green-pale:   #EAF2EE;
-  --green-xpale:  #F2F7F5;
-  --gold:         #C4923A;
-  --gold-light:   #F5ECD9;
-  --gold-mid:     #D4A554;
-  --ink:          #1A1F1C;
-  --ink-mid:      #3A4240;
-  --muted:        #6B7571;
-  --hint:         #9EAAA6;
-  --bg:           #F4F1EB;
-  --surface:      #FDFCFA;
-  --border:       #DDD9D0;
-  --border-mid:   #C8C3B8;
-  --radius:       8px;
-  --radius-lg:    14px;
+  --green-deep:  #1D4A3A;
+  --green-mid:   #2E6B56;
+  --green-soft:  #4A7C6F;
+  --green-xpale: #F2F7F5;
+  --gold:        #C4923A;
+  --gold-light:  #F5ECD9;
+  --ink:         #1A1F1C;
+  --muted:       #6B7571;
+  --hint:        #9EAAA6;
+  --bg:          #F4F1EB;
+  --surface:     #FDFCFA;
+  --border:      #DDD9D0;
+  --radius:      12px;
+  --radius-lg:   18px;
 }
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Barlow',sans-serif;background:var(--bg);color:var(--ink);min-height:100vh;display:flex;flex-direction:column}
 
-* { box-sizing: border-box; margin: 0; padding: 0; }
+/* HEADER */
+.page-header{background:var(--green-deep);padding:40px 24px 36px;text-align:center;position:relative;overflow:hidden;flex-shrink:0}
+.page-header::before{content:'';position:absolute;top:-80px;right:-80px;width:260px;height:260px;border-radius:50%;border:1px solid rgba(196,146,58,.15)}
+.page-header::after{content:'';position:absolute;bottom:-60px;left:-60px;width:180px;height:180px;border-radius:50%;border:1px solid rgba(196,146,58,.1)}
+.brand-name{font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:600;color:#fff;letter-spacing:.01em;line-height:1;margin-bottom:4px}
+.brand-name span{color:var(--gold)}
+.brand-sub{font-size:11px;font-weight:300;letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.45);margin-bottom:24px}
+.header-divider{width:40px;height:1px;background:var(--gold);margin:0 auto 20px;opacity:.6}
+.header-title{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:400;color:rgba(255,255,255,.9);line-height:1.4;margin-bottom:8px}
+.header-desc{font-size:13px;font-weight:300;color:rgba(255,255,255,.45);line-height:1.7;max-width:440px;margin:0 auto}
 
-body {
-  font-family: 'Barlow', sans-serif;
-  background: var(--bg);
-  color: var(--ink);
-  min-height: 100vh;
-  padding: 0 0 80px;
-}
+/* MAIN */
+main{flex:1;display:flex;align-items:center;justify-content:center;padding:48px 16px}
 
-/* ── HEADER ── */
-.page-header {
-  background: var(--green-deep);
-  padding: 32px 24px 28px;
-  text-align: center;
-  position: relative;
-  overflow: hidden;
-}
+.cards-wrap{width:100%;max-width:700px}
 
-.page-header::before {
-  content: '';
-  position: absolute;
-  top: -60px; right: -60px;
-  width: 200px; height: 200px;
-  border-radius: 50%;
-  border: 1px solid rgba(196,146,58,.18);
-}
+.choose-label{text-align:center;font-size:11px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--hint);margin-bottom:24px;display:flex;align-items:center;gap:12px}
+.choose-label::before,.choose-label::after{content:'';flex:1;height:1px;background:var(--border)}
 
-.page-header::after {
-  content: '';
-  position: absolute;
-  bottom: -40px; left: -40px;
-  width: 140px; height: 140px;
-  border-radius: 50%;
-  border: 1px solid rgba(196,146,58,.12);
-}
+.cards{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:540px){.cards{grid-template-columns:1fr}}
 
-.brand {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 14px;
-  margin-bottom: 20px;
-}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:28px 24px;cursor:pointer;text-decoration:none;color:inherit;display:flex;flex-direction:column;transition:all .2s;position:relative;overflow:hidden}
+.card::before{content:'';position:absolute;bottom:0;left:0;right:0;height:3px;background:var(--gold);opacity:0;transition:opacity .2s}
+.card:hover{border-color:var(--green-soft);transform:translateY(-3px);box-shadow:0 8px 32px rgba(29,74,58,.1)}
+.card:hover::before{opacity:1}
 
-.brand-text {
-  text-align: center;
-}
+.card-icon{width:44px;height:44px;border-radius:10px;background:var(--green-xpale);display:flex;align-items:center;justify-content:center;margin-bottom:18px;flex-shrink:0}
+.card-icon svg{width:22px;height:22px;stroke:var(--green-mid);fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
 
-.brand-name {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 28px;
-  font-weight: 600;
-  color: #fff;
-  letter-spacing: .01em;
-  line-height: 1;
-}
+.card-badge{display:inline-block;font-size:10px;font-weight:500;letter-spacing:.07em;text-transform:uppercase;background:var(--gold-light);color:#7A5A1A;padding:3px 10px;border-radius:20px;margin-bottom:10px;width:fit-content}
 
-.brand-name span {
-  color: var(--gold);
-}
+.card-title{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:500;color:var(--ink);line-height:1.2;margin-bottom:8px}
 
-.brand-sub {
-  font-size: 11px;
-  font-weight: 300;
-  letter-spacing: .14em;
-  text-transform: uppercase;
-  color: rgba(255,255,255,.55);
-  margin-top: 3px;
-}
+.card-desc{font-size:13px;color:var(--muted);line-height:1.6;margin-bottom:20px;flex:1}
 
-.header-divider {
-  width: 40px;
-  height: 1px;
-  background: var(--gold);
-  margin: 0 auto 16px;
-  opacity: .6;
-}
+.card-items{display:flex;flex-direction:column;gap:5px;margin-bottom:20px}
+.card-item{font-size:12px;color:var(--muted);padding-left:14px;position:relative;line-height:1.5}
+.card-item::before{content:'—';position:absolute;left:0;color:var(--gold);font-size:10px;top:2px}
 
-.header-title {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 20px;
-  font-weight: 400;
-  color: rgba(255,255,255,.9);
-  line-height: 1.4;
-}
+.card-cta{display:flex;align-items:center;justify-content:space-between;padding-top:16px;border-top:1px solid var(--border)}
+.card-cta-text{font-size:13px;font-weight:500;color:var(--green-mid)}
+.card-cta-arrow{width:30px;height:30px;border-radius:50%;background:var(--green-xpale);display:flex;align-items:center;justify-content:center;transition:background .2s,transform .2s}
+.card:hover .card-cta-arrow{background:var(--green-deep);transform:translateX(2px)}
+.card-cta-arrow svg{width:14px;height:14px;stroke:var(--green-mid);transition:stroke .2s}
+.card:hover .card-cta-arrow svg{stroke:#fff}
 
-.header-desc {
-  font-size: 13px;
-  font-weight: 300;
-  color: rgba(255,255,255,.5);
-  margin-top: 6px;
-  line-height: 1.6;
-}
+/* FOOTER */
+footer{text-align:center;padding:20px 16px;font-size:12px;color:var(--hint);flex-shrink:0}
+.footer-logo{font-family:'Cormorant Garamond',serif;font-size:14px;color:var(--green-deep);font-weight:500;margin-bottom:4px}
+.footer-logo em{color:var(--gold);font-style:normal}
 
-/* ── FORM BODY ── */
-.container {
-  max-width: 620px;
-  margin: 0 auto;
-  padding: 36px 16px 0;
-}
-
-.section {
-  margin-bottom: 24px;
-}
-
-.section-label {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 16px;
-}
-
-.section-num {
-  width: 22px;
-  height: 22px;
-  border-radius: 50%;
-  background: var(--green-deep);
-  color: #fff;
-  font-size: 11px;
-  font-weight: 500;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-}
-
-.section-title {
-  font-size: 11px;
-  font-weight: 500;
-  letter-spacing: .1em;
-  text-transform: uppercase;
-  color: var(--green-mid);
-  flex: 1;
-}
-
-.section-line {
-  flex: 1;
-  height: 1px;
-  background: var(--border);
-}
-
-.field { margin-bottom: 14px; }
-
-label.field-label {
-  display: block;
-  font-size: 13px;
-  font-weight: 500;
-  color: var(--ink-mid);
-  margin-bottom: 5px;
-}
-
-.hint {
-  font-size: 12px;
-  color: var(--hint);
-  margin-bottom: 5px;
-  line-height: 1.5;
-}
-
-input[type="text"],
-input[type="email"],
-textarea {
-  width: 100%;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 10px 13px;
-  font-size: 14px;
-  font-family: 'Barlow', sans-serif;
-  color: var(--ink);
-  outline: none;
-  transition: border-color .15s, box-shadow .15s;
-}
-
-input[type="text"]:focus,
-input[type="email"]:focus,
-textarea:focus {
-  border-color: var(--green-soft);
-  box-shadow: 0 0 0 3px rgba(74,124,111,.1);
-}
-
-textarea {
-  min-height: 108px;
-  resize: vertical;
-  font-family: 'Barlow Mono', monospace;
-  font-size: 13px;
-  line-height: 1.7;
-}
-
-input[type="file"] { display: none; }
-
-.upload-label {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  background: var(--surface);
-  border: 1px dashed var(--border-mid);
-  border-radius: var(--radius);
-  padding: 11px 14px;
-  cursor: pointer;
-  font-size: 13px;
-  color: var(--muted);
-  transition: all .15s;
-}
-.upload-label:hover {
-  border-color: var(--green-soft);
-  background: var(--green-xpale);
-  color: var(--green-deep);
-}
-.upload-icon {
-  width: 34px; height: 34px;
-  background: var(--green-xpale);
-  border-radius: 6px;
-  display: flex; align-items: center; justify-content: center;
-  flex-shrink: 0;
-}
-.upload-icon svg { width: 16px; height: 16px; stroke: var(--green-mid); }
-#upload-name { font-size: 12px; color: var(--green-mid); margin-top: 5px; display: none; }
-
-.optional-toggle {
-  display: flex; align-items: center; gap: 8px;
-  cursor: pointer; font-size: 13px; color: var(--muted);
-  margin-bottom: 12px; user-select: none;
-}
-.optional-toggle input { accent-color: var(--green-deep); width: 15px; height: 15px; cursor: pointer; }
-#cor-field { display: none; margin-bottom: 4px; }
-.color-row { display: flex; align-items: center; gap: 10px; }
-input[type="color"] { width: 44px; height: 36px; padding: 2px 4px; cursor: pointer; border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface); flex-shrink: 0; }
-
-.radio-group { display: flex; flex-direction: column; gap: 8px; }
-
-.radio-opt {
-  display: flex; align-items: flex-start; gap: 10px;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 11px 14px;
-  cursor: pointer;
-  transition: all .15s;
-}
-.radio-opt:hover { border-color: var(--border-mid); }
-.radio-opt input[type="radio"] { accent-color: var(--green-deep); margin-top: 2px; cursor: pointer; flex-shrink: 0; }
-.radio-opt.selected { border-color: var(--green-soft); background: var(--green-xpale); }
-.opt-text { font-size: 13px; color: var(--ink); }
-.opt-desc { font-size: 12px; color: var(--hint); margin-top: 2px; }
-
-.warn-box {
-  background: var(--gold-light);
-  border: 1px solid rgba(196,146,58,.35);
-  border-radius: var(--radius);
-  padding: 10px 14px;
-  font-size: 13px;
-  color: #7A5A1A;
-  margin-bottom: 14px;
-  line-height: 1.5;
-}
-.warn-box code { font-family: 'Barlow Mono', monospace; font-size: 12px; display: block; margin-top: 5px; opacity: .75; }
-
-#unico-section { display: block; }
-#grupo-section { display: none; }
-
-.empresa-block {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
-  padding: 14px 16px;
-  margin-bottom: 10px;
-  border-left: 3px solid var(--green-soft);
-}
-.empresa-num { font-size: 11px; font-weight: 500; letter-spacing: .05em; text-transform: uppercase; color: var(--green-soft); margin-bottom: 10px; }
-.empresa-block .field { margin-bottom: 10px; }
-.empresa-block .field:last-child { margin-bottom: 0; }
-
-.btn-add {
-  display: flex; align-items: center; justify-content: center; gap: 6px;
-  font-size: 13px; font-weight: 500; color: var(--green-mid);
-  background: none; border: 1px dashed var(--green-soft);
-  border-radius: var(--radius); padding: 8px 16px; cursor: pointer; width: 100%;
-  margin-top: 4px; transition: background .15s; font-family: 'Barlow', sans-serif;
-}
-.btn-add:hover { background: var(--green-xpale); }
-
-.divider { border: none; border-top: 1px solid var(--border); margin: 28px 0; }
-
-/* ── SUBMIT ── */
-.submit-wrap { margin-top: 8px; }
-
-.submit-btn {
-  width: 100%;
-  background: var(--green-deep);
-  color: #fff;
-  border: none;
-  border-radius: var(--radius);
-  padding: 13px;
-  font-size: 15px;
-  font-weight: 500;
-  font-family: 'Barlow', sans-serif;
-  cursor: pointer;
-  display: flex; align-items: center; justify-content: center; gap: 8px;
-  transition: background .15s, transform .1s;
-  letter-spacing: .01em;
-}
-.submit-btn:hover { background: var(--green-mid); }
-.submit-btn:active { transform: scale(.99); }
-.submit-btn:disabled { background: var(--border-mid); cursor: not-allowed; }
-
-.gold-line {
-  height: 2px;
-  background: linear-gradient(90deg, transparent, var(--gold), transparent);
-  margin: 16px 0 0;
-  border-radius: 2px;
-  opacity: .5;
-}
-
-.success-msg {
-  display: none;
-  background: var(--green-xpale);
-  border: 1px solid var(--green-soft);
-  border-radius: var(--radius-lg);
-  padding: 28px 24px;
-  text-align: center;
-  margin-top: 16px;
-}
-.success-msg .check {
-  width: 44px; height: 44px; border-radius: 50%;
-  background: var(--green-deep); margin: 0 auto 14px;
-  display: flex; align-items: center; justify-content: center;
-}
-.success-msg .check svg { width: 20px; height: 20px; stroke: #fff; }
-.success-msg h3 { font-family: 'Cormorant Garamond', serif; font-size: 20px; font-weight: 500; color: var(--green-deep); margin-bottom: 6px; }
-.success-msg p { font-size: 13px; color: var(--muted); line-height: 1.6; }
-
-.footer-note {
-  text-align: center; font-size: 12px; color: var(--hint); margin-top: 36px;
-  padding-bottom: 16px;
-}
-.footer-logo {
-  display: flex; align-items: center; justify-content: center; gap: 6px; margin-bottom: 6px;
-}
-.footer-logo span { font-family: 'Cormorant Garamond', serif; font-size: 15px; color: var(--green-deep); font-weight: 500; }
-.footer-logo span em { color: var(--gold); font-style: normal; }
-
-.uploadcare--widget__button {
-  background: var(--surface) !important;
-  border: 1px dashed var(--border-mid) !important;
-  border-radius: var(--radius) !important;
-  color: var(--muted) !important;
-  font-family: 'Barlow', sans-serif !important;
-  font-size: 13px !important;
-  padding: 10px 16px !important;
-  width: 100% !important;
-  text-align: left !important;
-  cursor: pointer !important;
-}
-.uploadcare--widget__button:hover {
-  border-color: var(--green-soft) !important;
-  background: var(--green-xpale) !important;
-  color: var(--green-deep) !important;
-}
-.uploadcare--widget__file-name {
-  font-size: 12px !important;
-  color: var(--green-mid) !important;
-  font-family: 'Barlow', sans-serif !important;
-}
-
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(10px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-.container { animation: fadeUp .4s ease both; }
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+.cards-wrap{animation:fadeUp .45s ease both}
 </style>
 </head>
 <body>
 
 <div class="page-header">
-  <div class="brand">
-    <div class="brand-text">
-      <div class="brand-name">JAZIDA<span>+</span></div>
-      <div class="brand-sub">Consultor</div>
-    </div>
-  </div>
+  <div class="brand-name">JAZIDA<span>+</span></div>
+  <div class="brand-sub">Consultor</div>
   <div class="header-divider"></div>
-  <div class="header-title">Coleta de Processos Minerários</div>
-  <div class="header-desc">Preencha os campos abaixo para geração do seu relatório ANM</div>
+  <div class="header-title">Portal de Formulários</div>
+  <div class="header-desc">Selecione abaixo o formulário que deseja preencher</div>
 </div>
 
-<div class="container">
-  <form id="main-form" action="https://api.web3forms.com/submit" method="POST">
+<main>
+  <div class="cards-wrap">
+    <div class="choose-label">Escolha uma opção</div>
+    <div class="cards">
 
-    <input type="hidden" name="access_key" value="a6b8152b-26fa-40e5-a14a-6f73e2dda58e">
-    <input type="hidden" name="subject" value="[Jazida+ Consultor] Nova coleta de processos ANM">
-    <input type="checkbox" name="botcheck" style="display:none">
-
-    <!-- 1. Consultoria -->
-    <div class="section">
-      <div class="section-label">
-        <div class="section-num">1</div>
-        <div class="section-title">Consultoria</div>
-        <div class="section-line"></div>
-      </div>
-
-      <div class="field">
-        <label class="field-label">Nome da consultoria</label>
-        <div class="hint">Como deve aparecer no relatório</div>
-        <input type="text" name="nome_consultoria" placeholder="Ex: Mineração Estratégica Ltda." required>
-      </div>
-
-      <div class="field">
-        <label class="field-label">Logo da consultoria</label>
-        <div class="hint">Envie a logo em PNG, JPG ou SVG — opcional</div>
-        <input type="hidden" id="logo-url" name="logo_consultoria" value="">
-        <input type="hidden" role="uploadcare-uploader" id="uc-uploader" data-crop="disabled">
-      </div>
-
-      <label class="optional-toggle">
-        <input type="checkbox" id="cor-toggle">
-        Incluir cor padrão / identidade visual
-      </label>
-      <div id="cor-field">
-        <label class="field-label">Cor principal da marca</label>
-        <div class="color-row">
-          <input type="color" id="cor-marca" name="cor_marca" value="#1D4A3A">
-          <input type="text" id="cor-hex" name="cor_hex" placeholder="#1D4A3A" style="max-width:140px">
+      <!-- CARD 1 — PROCESSOS ANM -->
+      <a class="card" href="processos.html">
+        <div class="card-icon">
+          <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
         </div>
-      </div>
-    </div>
-
-    <hr class="divider">
-
-    <!-- 2. Cliente -->
-    <div class="section">
-      <div class="section-label">
-        <div class="section-num">2</div>
-        <div class="section-title">Cliente</div>
-        <div class="section-line"></div>
-      </div>
-      <div class="field">
-        <label class="field-label">Nome do cliente</label>
-        <div class="hint">Como deve aparecer no relatório</div>
-        <input type="text" name="nome_cliente" placeholder="Ex: João Silva / Vale S.A." required>
-      </div>
-    </div>
-
-    <hr class="divider">
-
-    <!-- 3. Estrutura -->
-    <div class="section">
-      <div class="section-label">
-        <div class="section-num">3</div>
-        <div class="section-title">Estrutura do cliente</div>
-        <div class="section-line"></div>
-      </div>
-      <div class="field">
-        <label class="field-label">Os processos pertencem a:</label>
-        <div class="radio-group">
-          <label class="radio-opt selected" id="opt-unico">
-            <input type="radio" name="estrutura" value="unico" checked onchange="toggleEstrutura('unico')">
-            <div>
-              <div class="opt-text">Um único titular</div>
-              <div class="opt-desc">Empresa ou pessoa física</div>
-            </div>
-          </label>
-          <label class="radio-opt" id="opt-grupo">
-            <input type="radio" name="estrutura" value="grupo" onchange="toggleEstrutura('grupo')">
-            <div>
-              <div class="opt-text">Múltiplas empresas / titulares</div>
-              <div class="opt-desc">Grupo econômico</div>
-            </div>
-          </label>
+        <div class="card-badge">Coleta de dados</div>
+        <div class="card-title">Processos Minerários ANM</div>
+        <div class="card-desc">Envie os números dos seus processos para geração do relatório minerário personalizado.</div>
+        <div class="card-items">
+          <div class="card-item">Dados da consultoria e do cliente</div>
+          <div class="card-item">Processos único titular ou grupo econômico</div>
+          <div class="card-item">Escolha do formato do relatório</div>
         </div>
-      </div>
-    </div>
-
-    <hr class="divider">
-
-    <!-- 4. Processos -->
-    <div class="section">
-      <div class="section-label">
-        <div class="section-num">4</div>
-        <div class="section-title">Processos minerários</div>
-        <div class="section-line"></div>
-      </div>
-
-      <div class="warn-box">
-        Cole apenas números de processo da ANM
-        <code>896.137/2019 &nbsp;&nbsp; 832.555/2018, 870123/2021</code>
-      </div>
-
-      <div id="unico-section">
-        <div class="field">
-          <label class="field-label">Cole todos os processos</label>
-          <div class="hint">Um por linha, separados por vírgula ou espaço — qualquer formato funciona</div>
-          <textarea name="processos_unico" placeholder="896.137/2019&#10;832.555/2018&#10;870123/2021"></textarea>
-        </div>
-      </div>
-
-      <div id="grupo-section">
-        <div id="empresas-container">
-          <div class="empresa-block">
-            <div class="empresa-num">Empresa / Titular 1</div>
-            <div class="field">
-              <label class="field-label">Nome do titular</label>
-              <input type="text" name="empresa_1_nome" placeholder="Razão social ou nome">
-            </div>
-            <div class="field">
-              <label class="field-label">Processos</label>
-              <textarea name="empresa_1_processos" placeholder="896.137/2019&#10;832.555/2018"></textarea>
-            </div>
+        <div class="card-cta">
+          <span class="card-cta-text">Acessar formulário</span>
+          <div class="card-cta-arrow">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
           </div>
         </div>
-        <button type="button" class="btn-add" onclick="addEmpresa()">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-            <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
-          </svg>
-          Adicionar outra empresa
-        </button>
-      </div>
-    </div>
+      </a>
 
-    <hr class="divider">
-
-    <!-- 5. Formato -->
-    <div class="section">
-      <div class="section-label">
-        <div class="section-num">5</div>
-        <div class="section-title">Formato do relatório</div>
-        <div class="section-line"></div>
-      </div>
-      <div class="field">
-        <label class="field-label">Como deseja visualizar o relatório?</label>
-        <div class="radio-group">
-          <label class="radio-opt selected" id="opt-consolidado">
-            <input type="radio" name="formato_relatorio" value="consolidado" checked onchange="selectFormato(this)">
-            <div>
-              <div class="opt-text">Consolidado por cliente</div>
-              <div class="opt-desc">Visão geral de todos os processos</div>
-            </div>
-          </label>
-          <label class="radio-opt" id="opt-separado">
-            <input type="radio" name="formato_relatorio" value="separado" onchange="selectFormato(this)">
-            <div>
-              <div class="opt-text">Separado por empresa</div>
-              <div class="opt-desc">Um bloco por titular</div>
-            </div>
-          </label>
-          <label class="radio-opt" id="opt-detalhado">
-            <input type="radio" name="formato_relatorio" value="detalhado" onchange="selectFormato(this)">
-            <div>
-              <div class="opt-text">Detalhado por processo</div>
-              <div class="opt-desc">Ficha individual de cada processo</div>
-            </div>
-          </label>
+      <!-- CARD 2 — MARKETPLACE -->
+      <a class="card" href="marketplace.html">
+        <div class="card-icon">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M20 21a8 8 0 1 0-16 0"/><line x1="12" y1="12" x2="12" y2="21"/><line x1="8" y1="17" x2="16" y2="17"/></svg>
         </div>
-      </div>
-    </div>
+        <div class="card-badge">Marketplace</div>
+        <div class="card-title">Perfil de Parceiro Jazida+</div>
+        <div class="card-desc">Ative seu perfil no Marketplace Jazida+ e aumente sua visibilidade para empresas do setor mineral.</div>
+        <div class="card-items">
+          <div class="card-item">Informações e posicionamento da consultoria</div>
+          <div class="card-item">Serviços, experiência e presença digital</div>
+          <div class="card-item">Publicação no ecossistema Jazida+</div>
+        </div>
+        <div class="card-cta">
+          <span class="card-cta-text">Acessar formulário</span>
+          <div class="card-cta-arrow">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </div>
+        </div>
+      </a>
 
-    <div class="submit-wrap">
-      <button type="submit" class="submit-btn" id="submit-btn">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/>
-        </svg>
-        Enviar para análise
-      </button>
-      <div class="gold-line"></div>
     </div>
-
-  </form>
-
-  <div class="success-msg" id="success-msg">
-    <div class="check">
-      <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-        <polyline points="20 6 9 17 4 12"/>
-      </svg>
-    </div>
-    <h3>Recebido com sucesso!</h3>
-    <p>Os dados foram enviados para a Jazida+ Consultor.<br>Nossa equipe irá processar e entrar em contato em breve.</p>
   </div>
+</main>
 
-  <div class="footer-note">
-    <div class="footer-logo">
-      <span>JAZIDA<em>+</em> CONSULTOR</span>
-    </div>
-    Seus dados são utilizados exclusivamente para geração do relatório minerário ANM.
-  </div>
-</div>
+<footer>
+  <div class="footer-logo">JAZIDA<em>+</em> CONSULTOR</div>
+  Ecossistema de consultoria minerária
+</footer>
 
-<script>
-let empresaCount = 2;
-
-// Uploadcare — captura URL do arquivo enviado
-uploadcare.Widget('#uc-uploader').onChange(function(file) {
-  if (file) {
-    file.done(function(info) {
-      document.getElementById('logo-url').value = info.cdnUrl;
-    });
-  } else {
-    document.getElementById('logo-url').value = '';
-  }
-});
-
-document.getElementById('cor-toggle').addEventListener('change', function() {
-  document.getElementById('cor-field').style.display = this.checked ? 'block' : 'none';
-});
-
-const corPicker = document.getElementById('cor-marca');
-const corHex = document.getElementById('cor-hex');
-corPicker.addEventListener('input', () => { corHex.value = corPicker.value; });
-corHex.addEventListener('input', () => {
-  if (/^#[0-9A-Fa-f]{6}$/.test(corHex.value)) corPicker.value = corHex.value;
-});
-
-function toggleEstrutura(val) {
-  document.getElementById('unico-section').style.display = val === 'unico' ? 'block' : 'none';
-  document.getElementById('grupo-section').style.display  = val === 'grupo'  ? 'block' : 'none';
-  document.getElementById('opt-unico').classList.toggle('selected', val === 'unico');
-  document.getElementById('opt-grupo').classList.toggle('selected', val === 'grupo');
-}
-
-function selectFormato(el) {
-  ['opt-consolidado','opt-separado','opt-detalhado'].forEach(id =>
-    document.getElementById(id).classList.remove('selected'));
-  el.closest('.radio-opt').classList.add('selected');
-}
-
-function addEmpresa() {
-  const c = document.getElementById('empresas-container');
-  const d = document.createElement('div');
-  d.className = 'empresa-block';
-  d.innerHTML = `
-    <div class="empresa-num">Empresa / Titular ${empresaCount}</div>
-    <div class="field">
-      <label class="field-label">Nome do titular</label>
-      <input type="text" name="empresa_${empresaCount}_nome" placeholder="Razão social ou nome">
-    </div>
-    <div class="field">
-      <label class="field-label">Processos</label>
-      <textarea name="empresa_${empresaCount}_processos" placeholder="896.137/2019&#10;832.555/2018"></textarea>
-    </div>`;
-  c.appendChild(d);
-  empresaCount++;
-}
-
-document.getElementById('main-form').addEventListener('submit', async function(e) {
-  e.preventDefault();
-  const btn = document.getElementById('submit-btn');
-  btn.disabled = true;
-  btn.innerHTML = 'Enviando...';
-
-  const formData = new FormData(this);
-
-  try {
-    const res = await fetch('https://api.web3forms.com/submit', {
-      method: 'POST', body: formData
-    });
-    const data = await res.json();
-    if (data.success) {
-      this.style.display = 'none';
-      document.getElementById('success-msg').style.display = 'block';
-    } else {
-      btn.disabled = false;
-      btn.innerHTML = 'Enviar para análise';
-      alert('Ocorreu um erro: ' + (data.message || 'Tente novamente.'));
-    }
-  } catch(err) {
-    btn.disabled = false;
-    btn.innerHTML = 'Enviar para análise';
-    alert('Erro de conexão: ' + err.message);
-  }
-});
-</script>
 </body>
 </html>
