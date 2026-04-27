@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jazida+ — Marketplace de Parceiros</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Barlow:wght@300;400;500&display=swap" rel="stylesheet">
+<script src="https://ucarecdn.com/libs/widget/3.x/uploadcare.full.min.js"></script>
+<script>UPLOADCARE_PUBLIC_KEY = '2bea6828d26f199354cf';</script>
+<script>UPLOADCARE_LOCALE = 'pt';</script>
+<style>
+:root{
+  --green-deep:#1D4A3A;--green-mid:#2E6B56;--green-soft:#4A7C6F;
+  --green-xpale:#F2F7F5;--gold:#C4923A;--gold-light:#F5ECD9;
+  --ink:#1A1F1C;--ink-mid:#3A4240;--muted:#6B7571;--hint:#9EAAA6;
+  --bg:#F4F1EB;--surface:#FDFCFA;--border:#DDD9D0;--border-mid:#C8C3B8;
+  --radius:8px;--radius-lg:14px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Barlow',sans-serif;background:var(--bg);color:var(--ink);min-height:100vh;padding:0 0 60px}
+.page-header{background:var(--green-deep);padding:28px 24px 24px;text-align:center;position:relative;overflow:hidden}
+.page-header::before{content:'';position:absolute;top:-60px;right:-60px;width:200px;height:200px;border-radius:50%;border:1px solid rgba(196,146,58,.15)}
+.page-header::after{content:'';position:absolute;bottom:-40px;left:-40px;width:140px;height:140px;border-radius:50%;border:1px solid rgba(196,146,58,.1)}
+.brand-name{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:600;color:#fff;line-height:1;margin-bottom:3px}
+.brand-name span{color:var(--gold)}
+.brand-sub{font-size:10px;font-weight:300;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:16px}
+.header-divider{width:32px;height:1px;background:var(--gold);margin:0 auto 14px;opacity:.6}
+.header-badge{display:inline-block;background:rgba(196,146,58,.18);border:1px solid rgba(196,146,58,.3);border-radius:20px;padding:3px 12px;font-size:10px;font-weight:500;letter-spacing:.07em;text-transform:uppercase;color:var(--gold);margin-bottom:10px}
+.header-title{font-family:'Cormorant Garamond',serif;font-size:19px;font-weight:400;color:rgba(255,255,255,.9);line-height:1.4}
+.progress-wrap{max-width:620px;margin:0 auto;padding:20px 16px 0}
+.progress-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.progress-step-label{font-size:12px;font-weight:500;color:var(--green-mid)}
+.progress-count{font-size:12px;color:var(--hint)}
+.progress-bar-bg{background:var(--border);border-radius:4px;height:4px;overflow:hidden}
+.progress-bar-fill{height:4px;background:var(--gold);border-radius:4px;transition:width .4s ease}
+.container{max-width:620px;margin:0 auto;padding:24px 16px 0}
+.step{display:none}
+.step.active{display:block;animation:fadeUp .3s ease both}
+.step-header{margin-bottom:20px}
+.step-num{font-size:10px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-bottom:4px}
+.step-title{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:500;color:var(--ink);line-height:1.2}
+.step-desc{font-size:13px;color:var(--muted);line-height:1.6;margin-top:6px}
+.field{margin-bottom:14px}
+label.field-label{display:block;font-size:13px;font-weight:500;color:var(--ink-mid);margin-bottom:5px}
+.hint{font-size:12px;color:var(--hint);margin-bottom:6px;line-height:1.5}
+input[type=text],input[type=email],input[type=tel],textarea{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:10px 13px;font-size:14px;font-family:'Barlow',sans-serif;color:var(--ink);outline:none;transition:border-color .15s,box-shadow .15s}
+input[type=text]:focus,input[type=email]:focus,input[type=tel]:focus,textarea:focus{border-color:var(--green-soft);box-shadow:0 0 0 3px rgba(74,124,111,.1)}
+input.error{border-color:#E24B4A}
+textarea{min-height:90px;resize:vertical;line-height:1.6}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:480px){.two-col{grid-template-columns:1fr}}
+.radio-group,.check-group{display:flex;flex-direction:column;gap:7px}
+.radio-opt,.check-opt{display:flex;align-items:flex-start;gap:10px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:10px 14px;cursor:pointer;transition:all .15s}
+.radio-opt:hover,.check-opt:hover{border-color:var(--border-mid)}
+.radio-opt input,.check-opt input{accent-color:var(--green-deep);margin-top:2px;cursor:pointer;flex-shrink:0}
+.radio-opt.selected,.check-opt.selected{border-color:var(--green-soft);background:var(--green-xpale)}
+.opt-text{font-size:13px;color:var(--ink)}
+.canal-field{margin-top:8px;margin-bottom:8px;padding:12px 14px;background:var(--green-xpale);border:1px solid rgba(74,124,111,.25);border-radius:var(--radius);display:none;animation:fadeUp .2s ease both}
+.canal-field label.field-label{color:var(--green-mid);margin-bottom:4px}
+.canal-field input{background:var(--surface)}
+.uc-status{font-size:12px;color:var(--green-mid);margin-top:6px;display:none}
+.limit-warn{font-size:12px;color:#A32D2D;margin-top:6px;display:none}
+.field-error{font-size:12px;color:#A32D2D;margin-top:4px;display:none}
+.nav-wrap{display:flex;gap:10px;margin-top:24px}
+.btn-back{flex:0 0 auto;background:none;border:1px solid var(--border-mid);border-radius:var(--radius);padding:11px 20px;font-size:14px;font-weight:500;font-family:'Barlow',sans-serif;color:var(--muted);cursor:pointer;transition:all .15s}
+.btn-back:hover{background:var(--surface);color:var(--ink)}
+.btn-next{flex:1;background:var(--green-deep);color:#fff;border:none;border-radius:var(--radius);padding:12px;font-size:15px;font-weight:500;font-family:'Barlow',sans-serif;cursor:pointer;transition:background .15s,transform .1s;display:flex;align-items:center;justify-content:center;gap:8px}
+.btn-next:hover{background:var(--green-mid)}
+.btn-next:active{transform:scale(.99)}
+.btn-next:disabled{background:var(--border-mid);cursor:not-allowed}
+.gold-line{height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent);margin:14px 0 0;border-radius:2px;opacity:.5}
+.success-msg{display:none;background:var(--green-xpale);border:1px solid var(--green-soft);border-radius:var(--radius-lg);padding:36px 24px;text-align:center;margin-top:16px}
+.success-msg .check{width:52px;height:52px;border-radius:50%;background:var(--green-deep);margin:0 auto 18px;display:flex;align-items:center;justify-content:center}
+.success-msg .check svg{width:24px;height:24px;stroke:#fff}
+.success-msg h3{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:500;color:var(--green-deep);margin-bottom:8px}
+.success-msg p{font-size:13px;color:var(--muted);line-height:1.7}
+.footer-note{text-align:center;font-size:12px;color:var(--hint);margin-top:32px}
+.footer-logo{font-family:'Cormorant Garamond',serif;font-size:14px;color:var(--green-deep);font-weight:500;margin-bottom:4px}
+.footer-logo em{color:var(--gold);font-style:normal}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <div class="brand-name">JAZIDA<span>+</span></div>
+  <div class="brand-sub">Consultor</div>
+  <div class="header-divider"></div>
+  <div class="header-badge">Marketplace de Parceiros</div>
+  <div class="header-title">Ativação do Perfil — Onboarding</div>
+</div>
+
+<div class="progress-wrap" id="progress-wrap">
+  <div class="progress-top">
+    <span class="progress-step-label" id="step-label">Informações gerais</span>
+    <span class="progress-count" id="step-count">1 de 8</span>
+  </div>
+  <div class="progress-bar-bg">
+    <div class="progress-bar-fill" id="progress-bar" style="width:12.5%"></div>
+  </div>
+</div>
+
+<div class="container">
+<form id="main-form">
+  <input type="hidden" name="access_key" value="a6b8152b-26fa-40e5-a14a-6f73e2dda58e">
+  <input type="hidden" name="subject" value="[Jazida+ Marketplace] Novo perfil de parceiro">
+  <input type="checkbox" name="botcheck" style="display:none">
+
+  <!-- ETAPA 1 -->
+  <div class="step active" id="step-1">
+    <div class="step-header">
+      <div class="step-num">Etapa 1 de 8</div>
+      <div class="step-title">Informações gerais</div>
+      <div class="step-desc">Dados principais da sua consultoria e do responsável pelo cadastro.</div>
+    </div>
+    <div class="two-col">
+      <div class="field">
+        <label class="field-label">Nome da consultoria</label>
+        <input type="text" name="nome_consultoria" id="f-nome-consultoria" placeholder="Nome da empresa">
+        <div class="field-error" id="err-nome-consultoria">Campo obrigatório</div>
+      </div>
+      <div class="field">
+        <label class="field-label">Nome do responsável</label>
+        <input type="text" name="nome_responsavel" id="f-nome-responsavel" placeholder="Nome completo">
+        <div class="field-error" id="err-nome-responsavel">Campo obrigatório</div>
+      </div>
+    </div>
+    <div class="two-col">
+      <div class="field">
+        <label class="field-label">Cargo</label>
+        <input type="text" name="cargo" placeholder="Ex: Sócio-diretor">
+      </div>
+      <div class="field">
+        <label class="field-label">E-mail principal</label>
+        <input type="email" name="email" id="f-email" placeholder="contato@empresa.com.br">
+        <div class="field-error" id="err-email">E-mail inválido</div>
+      </div>
+    </div>
+    <div class="two-col">
+      <div class="field">
+        <label class="field-label">Telefone / WhatsApp</label>
+        <input type="tel" name="telefone" placeholder="(00) 00000-0000">
+      </div>
+      <div class="field">
+        <label class="field-label">Cidade e estado sede</label>
+        <input type="text" name="cidade_estado" placeholder="Ex: Belo Horizonte, MG">
+      </div>
+    </div>
+    <div class="field">
+      <label class="field-label">Região de atuação</label>
+      <div class="check-group">
+        <label class="check-opt"><input type="checkbox" name="regiao[]" value="Nacional" onchange="toggleCheck(this)"><span class="opt-text">Nacional</span></label>
+        <label class="check-opt"><input type="checkbox" name="regiao[]" value="Sudeste" onchange="toggleCheck(this)"><span class="opt-text">Sudeste</span></label>
+        <label class="check-opt"><input type="checkbox" name="regiao[]" value="Sul" onchange="toggleCheck(this)"><span class="opt-text">Sul</span></label>
+        <label class="check-opt"><input type="checkbox" name="regiao[]" value="Centro-Oeste" onchange="toggleCheck(this)"><span class="opt-text">Centro-Oeste</span></label>
+        <label class="check-opt"><input type="checkbox" name="regiao[]" value="Nordeste" onchange="toggleCheck(this)"><span class="opt-text">Nordeste</span></label>
+        <label class="check-opt"><input type="checkbox" name="regiao[]" value="Norte" onchange="toggleCheck(this)"><span class="opt-text">Norte</span></label>
+        <label class="check-opt"><input type="checkbox" name="regiao[]" value="Internacional" onchange="toggleCheck(this)"><span class="opt-text">Internacional</span></label>
+      </div>
+    </div>
+    <div class="field">
+      <label class="field-label">Estados atendidos</label>
+      <div class="hint">Liste os estados onde sua empresa possui atuação</div>
+      <textarea name="estados_atendidos" placeholder="Ex: MG, GO, MT, PA..."></textarea>
+    </div>
+    <div class="nav-wrap">
+      <button type="button" class="btn-next" onclick="nextStep(1)">Próximo <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></button>
+    </div>
+    <div class="gold-line"></div>
+  </div>
+
+  <!-- ETAPA 2 -->
+  <div class="step" id="step-2">
+    <div class="step-header">
+      <div class="step-num">Etapa 2 de 8</div>
+      <div class="step-title">Logo e identidade visual</div>
+      <div class="step-desc">Envie sua logo ou qualquer material de identidade visual. Aceita PNG, JPG, SVG ou PDF.</div>
+    </div>
+    <div class="field">
+      <label class="field-label">Logo / manual de marca</label>
+      <div class="hint">Logo, manual de marca, guia de identidade visual — qualquer material de marketing</div>
+      <input type="hidden" id="logo-url" name="logo_url" value="">
+      <input type="hidden" role="uploadcare-uploader" id="uc-uploader" data-crop="disabled">
+      <div class="uc-status" id="uc-status"></div>
+    </div>
+    <div class="nav-wrap">
+      <button type="button" class="btn-back" onclick="prevStep(2)">Voltar</button>
+      <button type="button" class="btn-next" onclick="nextStep(2)">Próximo <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></button>
+    </div>
+    <div class="gold-line"></div>
+  </div>
+
+  <!-- ETAPA 3 -->
+  <div class="step" id="step-3">
+    <div class="step-header">
+      <div class="step-num">Etapa 3 de 8</div>
+      <div class="step-title">Posicionamento da consultoria</div>
+      <div class="step-desc">Não precisa ser institucional. Escreva de forma natural — nossa equipe irá revisar.</div>
+    </div>
+    <div class="field">
+      <label class="field-label">"Hoje ajudamos empresas do setor mineral a..."</label>
+      <textarea name="frase_posicionamento" placeholder="Ex: ...regularizar seus processos com agilidade e segurança jurídica."></textarea>
+    </div>
+    <div class="field">
+      <label class="field-label">Como você descreveria sua consultoria?</label>
+      <div class="hint">O que fazem, como ajudam, onde atuam, diferencial.</div>
+      <textarea name="descricao_consultoria" style="min-height:120px" placeholder="Descreva sua consultoria de forma natural..."></textarea>
+    </div>
+    <div class="field">
+      <label class="field-label">Principal diferencial da consultoria</label>
+      <div class="hint">Ex: proximidade com cliente, especialização técnica, agilidade, experiência no setor.</div>
+      <textarea name="diferencial" placeholder="Descreva seu principal diferencial..."></textarea>
+    </div>
+    <div class="nav-wrap">
+      <button type="button" class="btn-back" onclick="prevStep(3)">Voltar</button>
+      <button type="button" class="btn-next" onclick="nextStep(3)">Próximo <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></button>
+    </div>
+    <div class="gold-line"></div>
+  </div>
+
+  <!-- ETAPA 4 -->
+  <div class="step" id="step-4">
+    <div class="step-header">
+      <div class="step-num">Etapa 4 de 8</div>
+      <div class="step-title">Experiência</div>
+    </div>
+    <div class="two-col">
+      <div class="field">
+        <label class="field-label">Há quantos anos sua empresa atua?</label>
+        <div class="radio-group" id="anos-atuacao">
+          <label class="radio-opt"><input type="radio" name="anos_atuacao" value="1 a 3 anos" onchange="toggleRadio('anos-atuacao',this)"><span class="opt-text">1 a 3 anos</span></label>
+          <label class="radio-opt"><input type="radio" name="anos_atuacao" value="4 a 6 anos" onchange="toggleRadio('anos-atuacao',this)"><span class="opt-text">4 a 6 anos</span></label>
+          <label class="radio-opt"><input type="radio" name="anos_atuacao" value="7 a 10 anos" onchange="toggleRadio('anos-atuacao',this)"><span class="opt-text">7 a 10 anos</span></label>
+          <label class="radio-opt"><input type="radio" name="anos_atuacao" value="11 a 15 anos" onchange="toggleRadio('anos-atuacao',this)"><span class="opt-text">11 a 15 anos</span></label>
+          <label class="radio-opt"><input type="radio" name="anos_atuacao" value="16 a 20 anos" onchange="toggleRadio('anos-atuacao',this)"><span class="opt-text">16 a 20 anos</span></label>
+          <label class="radio-opt"><input type="radio" name="anos_atuacao" value="Mais de 20 anos" onchange="toggleRadio('anos-atuacao',this)"><span class="opt-text">Mais de 20 anos</span></label>
+        </div>
+      </div>
+      <div class="field">
+        <label class="field-label">Quantos projetos já realizou?</label>
+        <div class="radio-group" id="num-projetos">
+          <label class="radio-opt"><input type="radio" name="num_projetos" value="Até 20 projetos" onchange="toggleRadio('num-projetos',this)"><span class="opt-text">Até 20 projetos</span></label>
+          <label class="radio-opt"><input type="radio" name="num_projetos" value="21 a 50 projetos" onchange="toggleRadio('num-projetos',this)"><span class="opt-text">21 a 50</span></label>
+          <label class="radio-opt"><input type="radio" name="num_projetos" value="51 a 100 projetos" onchange="toggleRadio('num-projetos',this)"><span class="opt-text">51 a 100</span></label>
+          <label class="radio-opt"><input type="radio" name="num_projetos" value="101 a 250 projetos" onchange="toggleRadio('num-projetos',this)"><span class="opt-text">101 a 250</span></label>
+          <label class="radio-opt"><input type="radio" name="num_projetos" value="251 a 500 projetos" onchange="toggleRadio('num-projetos',this)"><span class="opt-text">251 a 500</span></label>
+          <label class="radio-opt"><input type="radio" name="num_projetos" value="501 a 1.000 projetos" onchange="toggleRadio('num-projetos',this)"><span class="opt-text">501 a 1.000</span></label>
+          <label class="radio-opt"><input type="radio" name="num_projetos" value="Mais de 1.000 projetos" onchange="toggleRadio('num-projetos',this)"><span class="opt-text">Mais de 1.000</span></label>
+        </div>
+      </div>
+    </div>
+    <div class="nav-wrap">
+      <button type="button" class="btn-back" onclick="prevStep(4)">Voltar</button>
+      <button type="button" class="btn-next" onclick="nextStep(4)">Próximo <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></button>
+    </div>
+    <div class="gold-line"></div>
+  </div>
+
+  <!-- ETAPA 5 -->
+  <div class="step" id="step-5">
+    <div class="step-header">
+      <div class="step-num">Etapa 5 de 8</div>
+      <div class="step-title">Serviços principais</div>
+      <div class="step-desc">Selecione até 3 serviços que melhor representam sua atuação. Eles aparecerão em destaque no seu perfil.</div>
+    </div>
+    <div class="field">
+      <div class="check-group" id="servicos">
+        <label class="check-opt"><input type="checkbox" name="servicos[]" value="Gestão de processos minerários" onchange="limitCheck('servicos',3,this)"><span class="opt-text">Gestão de processos minerários</span></label>
+        <label class="check-opt"><input type="checkbox" name="servicos[]" value="Licenciamento ambiental" onchange="limitCheck('servicos',3,this)"><span class="opt-text">Licenciamento ambiental</span></label>
+        <label class="check-opt"><input type="checkbox" name="servicos[]" value="Due diligence / avaliação de ativos" onchange="limitCheck('servicos',3,this)"><span class="opt-text">Due diligence / avaliação de ativos</span></label>
+        <label class="check-opt"><input type="checkbox" name="servicos[]" value="Topografia" onchange="limitCheck('servicos',3,this)"><span class="opt-text">Topografia</span></label>
+        <label class="check-opt"><input type="checkbox" name="servicos[]" value="Projetos para mineração" onchange="limitCheck('servicos',3,this)"><span class="opt-text">Projetos para mineração</span></label>
+        <label class="check-opt"><input type="checkbox" name="servicos[]" value="Regularização mineral" onchange="limitCheck('servicos',3,this)"><span class="opt-text">Regularização mineral</span></label>
+        <label class="check-opt"><input type="checkbox" name="servicos[]" value="Relatórios técnicos (RFP, RPP, PAE etc.)" onchange="limitCheck('servicos',3,this)"><span class="opt-text">Relatórios técnicos (RFP, RPP, PAE etc.)</span></label>
+        <label class="check-opt"><input type="checkbox" name="servicos[]" value="Consultoria ambiental" onchange="limitCheck('servicos',3,this)"><span class="opt-text">Consultoria ambiental</span></label>
+        <label class="check-opt"><input type="checkbox" name="servicos[]" value="Requerimentos minerários" onchange="limitCheck('servicos',3,this)"><span class="opt-text">Requerimentos minerários</span></label>
+        <label class="check-opt"><input type="checkbox" name="servicos[]" value="Estudos técnicos" onchange="limitCheck('servicos',3,this)"><span class="opt-text">Estudos técnicos</span></label>
+        <label class="check-opt"><input type="checkbox" name="servicos[]" value="Auditoria" onchange="limitCheck('servicos',3,this)"><span class="opt-text">Auditoria</span></label>
+        <label class="check-opt"><input type="checkbox" name="servicos[]" value="Geologia aplicada" onchange="limitCheck('servicos',3,this)"><span class="opt-text">Geologia aplicada</span></label>
+        <label class="check-opt"><input type="checkbox" name="servicos[]" value="Planejamento minerário" onchange="limitCheck('servicos',3,this)"><span class="opt-text">Planejamento minerário</span></label>
+        <label class="check-opt"><input type="checkbox" name="servicos[]" value="Outra" onchange="limitCheck('servicos',3,this)"><span class="opt-text">Outra</span></label>
+      </div>
+      <div class="limit-warn" id="servicos-aviso">Selecione no máximo 3 serviços.</div>
+    </div>
+    <div class="field">
+      <label class="field-label">Outros serviços oferecidos</label>
+      <div class="hint">Serviços complementares não selecionados acima.</div>
+      <textarea name="outros_servicos" placeholder="Descreva brevemente outros serviços..."></textarea>
+    </div>
+    <div class="nav-wrap">
+      <button type="button" class="btn-back" onclick="prevStep(5)">Voltar</button>
+      <button type="button" class="btn-next" onclick="nextStep(5)">Próximo <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></button>
+    </div>
+    <div class="gold-line"></div>
+  </div>
+
+  <!-- ETAPA 6 -->
+  <div class="step" id="step-6">
+    <div class="step-header">
+      <div class="step-num">Etapa 6 de 8</div>
+      <div class="step-title">Tipo de empresa que mais atende</div>
+    </div>
+    <div class="field">
+      <label class="field-label">Qual perfil de empresa você atende com maior frequência?</label>
+      <div class="radio-group" id="perfil-empresa">
+        <label class="radio-opt"><input type="radio" name="perfil_empresa" value="Pequenas mineradoras" onchange="toggleRadio('perfil-empresa',this)"><span class="opt-text">Pequenas mineradoras</span></label>
+        <label class="radio-opt"><input type="radio" name="perfil_empresa" value="Médias mineradoras" onchange="toggleRadio('perfil-empresa',this)"><span class="opt-text">Médias mineradoras</span></label>
+        <label class="radio-opt"><input type="radio" name="perfil_empresa" value="Grandes mineradoras" onchange="toggleRadio('perfil-empresa',this)"><span class="opt-text">Grandes mineradoras</span></label>
+        <label class="radio-opt"><input type="radio" name="perfil_empresa" value="Empresas em expansão" onchange="toggleRadio('perfil-empresa',this)"><span class="opt-text">Empresas em expansão</span></label>
+        <label class="radio-opt"><input type="radio" name="perfil_empresa" value="Novos projetos minerários" onchange="toggleRadio('perfil-empresa',this)"><span class="opt-text">Novos projetos minerários</span></label>
+        <label class="radio-opt"><input type="radio" name="perfil_empresa" value="Empresas com foco ambiental" onchange="toggleRadio('perfil-empresa',this)"><span class="opt-text">Empresas com foco ambiental</span></label>
+        <label class="radio-opt"><input type="radio" name="perfil_empresa" value="Projetos de licenciamento e conformidade" onchange="toggleRadio('perfil-empresa',this)"><span class="opt-text">Projetos de licenciamento e conformidade</span></label>
+        <label class="radio-opt"><input type="radio" name="perfil_empresa" value="Outra" onchange="toggleRadio('perfil-empresa',this)"><span class="opt-text">Outra</span></label>
+      </div>
+    </div>
+    <div class="nav-wrap">
+      <button type="button" class="btn-back" onclick="prevStep(6)">Voltar</button>
+      <button type="button" class="btn-next" onclick="nextStep(6)">Próximo <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></button>
+    </div>
+    <div class="gold-line"></div>
+  </div>
+
+  <!-- ETAPA 7 -->
+  <div class="step" id="step-7">
+    <div class="step-header">
+      <div class="step-num">Etapa 7 de 8</div>
+      <div class="step-title">Contato e presença digital</div>
+      <div class="step-desc">Selecione os canais — os campos de link aparecem automaticamente.</div>
+    </div>
+    <div class="field">
+      <div class="check-group" id="canais">
+        <label class="check-opt"><input type="checkbox" name="canais[]" value="Instagram" onchange="toggleCanal(this,'instagram-field')"><span class="opt-text">Instagram</span></label>
+        <label class="check-opt"><input type="checkbox" name="canais[]" value="LinkedIn" onchange="toggleCanal(this,'linkedin-field')"><span class="opt-text">LinkedIn</span></label>
+        <label class="check-opt"><input type="checkbox" name="canais[]" value="Site institucional" onchange="toggleCanal(this,'site-field')"><span class="opt-text">Site institucional</span></label>
+        <label class="check-opt"><input type="checkbox" name="canais[]" value="WhatsApp comercial" onchange="toggleCanal(this,'whatsapp-field')"><span class="opt-text">WhatsApp comercial</span></label>
+        <label class="check-opt"><input type="checkbox" name="canais[]" value="Facebook" onchange="toggleCanal(this,'facebook-field')"><span class="opt-text">Facebook</span></label>
+        <label class="check-opt"><input type="checkbox" name="canais[]" value="YouTube" onchange="toggleCanal(this,'youtube-field')"><span class="opt-text">YouTube</span></label>
+        <label class="check-opt"><input type="checkbox" name="canais[]" value="Não possuímos canais digitais" onchange="toggleSemCanal(this)"><span class="opt-text">Não possuímos canais digitais atualmente</span></label>
+      </div>
+    </div>
+    <div id="instagram-field" class="canal-field"><label class="field-label">Link do Instagram</label><input type="text" name="link_instagram" placeholder="instagram.com/suaempresa"></div>
+    <div id="linkedin-field" class="canal-field"><label class="field-label">Link do LinkedIn</label><input type="text" name="link_linkedin" placeholder="linkedin.com/company/suaempresa"></div>
+    <div id="site-field" class="canal-field"><label class="field-label">Link do site</label><input type="text" name="link_site" placeholder="www.suaempresa.com.br"></div>
+    <div id="whatsapp-field" class="canal-field"><label class="field-label">WhatsApp comercial</label><input type="tel" name="link_whatsapp" placeholder="(31) 99999-9999"></div>
+    <div id="facebook-field" class="canal-field"><label class="field-label">Link do Facebook</label><input type="text" name="link_facebook" placeholder="facebook.com/suaempresa"></div>
+    <div id="youtube-field" class="canal-field"><label class="field-label">Link do YouTube</label><input type="text" name="link_youtube" placeholder="youtube.com/@suaempresa"></div>
+    <div class="nav-wrap">
+      <button type="button" class="btn-back" onclick="prevStep(7)">Voltar</button>
+      <button type="button" class="btn-next" onclick="nextStep(7)">Próximo <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></button>
+    </div>
+    <div class="gold-line"></div>
+  </div>
+
+  <!-- ETAPA 8 -->
+  <div class="step" id="step-8">
+    <div class="step-header">
+      <div class="step-num">Etapa 8 de 8</div>
+      <div class="step-title">Autorização e envio</div>
+      <div class="step-desc">Confirme a autorização para publicar seu perfil no Marketplace Jazida+.</div>
+    </div>
+    <div class="field">
+      <div class="radio-group" id="autorizacao">
+        <label class="radio-opt"><input type="radio" name="autorizacao" value="Sim, autorizo" onchange="toggleRadio('autorizacao',this)"><span class="opt-text">Sim, autorizo a publicação das informações fornecidas neste formulário no Marketplace Jazida+</span></label>
+      </div>
+    </div>
+    <div class="nav-wrap">
+      <button type="button" class="btn-back" onclick="prevStep(8)">Voltar</button>
+      <button type="submit" class="btn-next" id="submit-btn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+        Enviar perfil
+      </button>
+    </div>
+    <div class="gold-line"></div>
+  </div>
+
+</form>
+
+<div class="success-msg" id="success-msg">
+  <div class="check"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+  <h3>Perfil enviado com sucesso!</h3>
+  <p>Obrigado por fazer parte do ecossistema Jazida+.<br>Nossa equipe irá revisar e entrar em contato em breve.</p>
+</div>
+
+<div class="footer-note">
+  <div class="footer-logo">JAZIDA<em>+</em> CONSULTOR</div>
+  Informações utilizadas exclusivamente para o Marketplace Jazida+.
+</div>
+</div>
+
+<script>
+const TOTAL = 8;
+const stepLabels = ['Informações gerais','Logo e identidade visual','Posicionamento','Experiência','Serviços principais','Perfil de cliente','Presença digital','Autorização e envio'];
+let currentStep = 1;
+
+function showStep(n) {
+  document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+  document.getElementById('step-' + n).classList.add('active');
+  document.getElementById('step-label').textContent = stepLabels[n-1];
+  document.getElementById('step-count').textContent = n + ' de ' + TOTAL;
+  document.getElementById('progress-bar').style.width = (n / TOTAL * 100) + '%';
+  window.scrollTo({top:0, behavior:'smooth'});
+  currentStep = n;
+}
+
+function validateStep(n) {
+  let ok = true;
+  if (n === 1) {
+    const nome = document.getElementById('f-nome-consultoria');
+    const resp = document.getElementById('f-nome-responsavel');
+    const email = document.getElementById('f-email');
+    if (!nome.value.trim()) { document.getElementById('err-nome-consultoria').style.display='block'; nome.classList.add('error'); ok=false; } else { document.getElementById('err-nome-consultoria').style.display='none'; nome.classList.remove('error'); }
+    if (!resp.value.trim()) { document.getElementById('err-nome-responsavel').style.display='block'; resp.classList.add('error'); ok=false; } else { document.getElementById('err-nome-responsavel').style.display='none'; resp.classList.remove('error'); }
+    if (email.value && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value)) { document.getElementById('err-email').style.display='block'; email.classList.add('error'); ok=false; } else { document.getElementById('err-email').style.display='none'; email.classList.remove('error'); }
+  }
+  return ok;
+}
+
+function nextStep(n) { if (!validateStep(n)) return; if (n < TOTAL) showStep(n+1); }
+function prevStep(n) { if (n > 1) showStep(n-1); }
+
+uploadcare.Widget('#uc-uploader').onChange(function(file) {
+  if (file) { file.done(function(info) { document.getElementById('logo-url').value = info.cdnUrl; const st = document.getElementById('uc-status'); st.textContent = 'Arquivo enviado: ' + info.name; st.style.display='block'; }); }
+  else { document.getElementById('logo-url').value=''; document.getElementById('uc-status').style.display='none'; }
+});
+
+function toggleCheck(el) { el.closest('.check-opt').classList.toggle('selected', el.checked); }
+
+function toggleCanal(el, fieldId) {
+  el.closest('.check-opt').classList.toggle('selected', el.checked);
+  document.getElementById(fieldId).style.display = el.checked ? 'block' : 'none';
+  if (!el.checked) { const i = document.querySelector('#'+fieldId+' input'); if(i) i.value=''; }
+  const sem = document.querySelector('input[value="Não possuímos canais digitais"]');
+  if (sem && sem.checked) { sem.checked=false; sem.closest('.check-opt').classList.remove('selected'); }
+}
+
+function toggleSemCanal(el) {
+  el.closest('.check-opt').classList.toggle('selected', el.checked);
+  if (el.checked) {
+    document.querySelectorAll('#canais input[type=checkbox]:not([value="Não possuímos canais digitais"])').forEach(cb => { cb.checked=false; cb.closest('.check-opt').classList.remove('selected'); });
+    document.querySelectorAll('.canal-field').forEach(f => { f.style.display='none'; const i=f.querySelector('input'); if(i) i.value=''; });
+  }
+}
+
+function toggleRadio(groupId, el) {
+  document.querySelectorAll('#'+groupId+' .radio-opt').forEach(o => o.classList.remove('selected'));
+  el.closest('.radio-opt').classList.add('selected');
+}
+
+function limitCheck(groupId, max, el) {
+  const checked = document.querySelectorAll('#'+groupId+' input:checked');
+  const aviso = document.getElementById(groupId+'-aviso');
+  if (checked.length > max) { el.checked=false; aviso.style.display='block'; }
+  else { aviso.style.display='none'; el.closest('.check-opt').classList.toggle('selected', el.checked); }
+}
+
+function v(name) { const e=document.querySelector('[name="'+name+'"]'); return e?(e.value||'—'):'—'; }
+function rv(name) { const e=document.querySelector('[name="'+name+'"]:checked'); return e?e.value:'—'; }
+function cv(name) { const els=document.querySelectorAll('[name="'+name+'"]:checked'); return els.length?Array.from(els).map(e=>e.value).join(', '):'—'; }
+function row(l,val) { return `<tr><td style="padding:8px 0;border-bottom:1px solid #e8e4dd;color:#6B7571;font-size:13px;width:180px;vertical-align:top">${l}</td><td style="padding:8px 0;border-bottom:1px solid #e8e4dd;font-size:13px;color:#1A1F1C;white-space:pre-wrap">${val}</td></tr>`; }
+function sec(t) { return `<p style="font-size:11px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:#C4923A;margin:20px 0 10px">${t}</p>`; }
+
+function buildEmail() {
+  const logoUrl = document.getElementById('logo-url').value;
+  const canaisMap = [['Instagram','link_instagram'],['LinkedIn','link_linkedin'],['Site institucional','link_site'],['WhatsApp comercial','link_whatsapp'],['Facebook','link_facebook'],['YouTube','link_youtube']];
+  let canaisHtml = ''; let temCanal = false;
+  canaisMap.forEach(([label,name]) => {
+    if (document.querySelector(`input[value="${label}"]:checked`)) {
+      temCanal=true;
+      const link=v(name);
+      canaisHtml+=row(label, link!=='—'?`<a href="${link.startsWith('http')?link:'https://'+link}" style="color:#2E6B56">${link}</a>`:'—');
+    }
+  });
+  if (!temCanal) canaisHtml=row('Canais','Não possuímos canais digitais');
+
+  return `<!DOCTYPE html><html><body style="margin:0;padding:0;background:#F4F1EB;font-family:Helvetica,sans-serif"><table width="100%" cellpadding="0" cellspacing="0"><tr><td align="center" style="padding:32px 16px"><table width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%"><tr><td style="background:#1D4A3A;border-radius:12px 12px 0 0;padding:28px 32px;text-align:center"><div style="font-family:Georgia,serif;font-size:28px;font-weight:600;color:#fff">JAZIDA<span style="color:#C4923A">+</span></div><div style="font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.45);margin-top:3px">Consultor</div><div style="width:32px;height:1px;background:#C4923A;margin:14px auto 12px;opacity:.6"></div><div style="font-family:Georgia,serif;font-size:16px;color:rgba(255,255,255,.9)">Novo perfil — Marketplace Parceiros</div></td></tr><tr><td style="background:#fff;padding:28px 32px">
+  ${sec('Informações gerais')}<table width="100%" cellpadding="0" cellspacing="0">${row('Consultoria',v('nome_consultoria'))}${row('Responsável',v('nome_responsavel'))}${row('Cargo',v('cargo'))}${row('E-mail',v('email'))}${row('Telefone',v('telefone'))}${row('Cidade / Estado',v('cidade_estado'))}${row('Regiões',cv('regiao[]'))}${row('Estados',v('estados_atendidos'))}</table>
+  ${sec('Logo')}<table width="100%" cellpadding="0" cellspacing="0">${row('Arquivo',logoUrl?`<a href="${logoUrl}" style="color:#2E6B56">Ver arquivo</a>`:'—')}</table>
+  ${sec('Posicionamento')}<table width="100%" cellpadding="0" cellspacing="0">${row('Frase',v('frase_posicionamento'))}${row('Descrição',v('descricao_consultoria'))}${row('Diferencial',v('diferencial'))}</table>
+  ${sec('Experiência')}<table width="100%" cellpadding="0" cellspacing="0">${row('Anos no mercado',rv('anos_atuacao'))}${row('Projetos',rv('num_projetos'))}</table>
+  ${sec('Serviços')}<table width="100%" cellpadding="0" cellspacing="0">${row('Destaques',cv('servicos[]'))}${row('Outros',v('outros_servicos'))}</table>
+  ${sec('Perfil de cliente')}<table width="100%" cellpadding="0" cellspacing="0">${row('Perfil',rv('perfil_empresa'))}</table>
+  ${sec('Presença digital')}<table width="100%" cellpadding="0" cellspacing="0">${canaisHtml}</table>
+  ${sec('Autorização')}<table width="100%" cellpadding="0" cellspacing="0">${row('Autorizado',rv('autorizacao'))}</table>
+  </td></tr><tr><td style="background:#F4F1EB;border-radius:0 0 12px 12px;padding:16px 32px;text-align:center"><p style="font-size:11px;color:#9EAAA6;margin:0">Jazida+ Consultor · Marketplace de Parceiros</p></td></tr></table></td></tr></table></body></html>`;
+}
+
+document.getElementById('main-form').addEventListener('submit', async function(e) {
+  e.preventDefault();
+  if (!document.querySelector('[name="autorizacao"]:checked')) { alert('Por favor, autorize a publicação do perfil para continuar.'); return; }
+  const btn = document.getElementById('submit-btn');
+  btn.disabled=true; btn.innerHTML='Enviando...';
+  const formData = new FormData(this);
+  formData.set('message', buildEmail());
+  try {
+    const res = await fetch('https://api.web3forms.com/submit', {method:'POST', body:formData});
+    const data = await res.json();
+    if (data.success) {
+      document.getElementById('main-form').style.display='none';
+      document.getElementById('progress-wrap').style.display='none';
+      document.getElementById('success-msg').style.display='block';
+      window.scrollTo({top:0, behavior:'smooth'});
+    } else {
+      btn.disabled=false; btn.innerHTML='Enviar perfil';
+      alert('Erro: ' + (data.message||'Tente novamente.'));
+    }
+  } catch(err) {
+    btn.disabled=false; btn.innerHTML='Enviar perfil';
+    alert('Erro de conexão: ' + err.message);
+  }
+});
+</script>
+</body>
+</html>
